@@ -9,11 +9,24 @@ internal import _LocationEssentials
 
 struct ContentView: View {
     @EnvironmentObject var locationManager: LocationManager
+    var weatherManager = WeatherManager()
+    @State var weather: ResponseBody?
     
     var body: some View {
         VStack {
             if let location = locationManager.location {
-                Text("Your coordinate are: \(location.latitude), \(location.longitude)")
+                if let weather = weather {
+                    WeatherView(weather: weather)
+                } else {
+                    LoadingView()
+                        .task {
+                            do {
+                                weather = try await weatherManager.getCurrentWeather(latitude:location.latitude,longtitude: location.longitude)
+                            } catch {
+                                print("Error getting weather: \(error)")
+                            }
+                        }
+                }
             } else {
                 if locationManager.isLoading {
                     LoadingView()
