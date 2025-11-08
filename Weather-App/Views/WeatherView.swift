@@ -47,9 +47,10 @@ struct WeatherView: View {
                     AsyncImage(url: URL(string: "https://pixabay.com/get/g8d979b212b452fbb21fd7beb05ad2baa326434e61a9e19222e8a19f81a5e900bd8d43050fa09af182b9be11c0529cc25a68986e21a18110edd71905aa671d659_1920.jpg")) { image in
                         image
                             .resizable()
-                            .scaledToFit()
+                            .scaledToFill()
                             .frame(maxWidth: .infinity)
                             .frame(height: 300)
+                            .clipped()
                     } placeholder: {
                         ProgressView()
                     }
